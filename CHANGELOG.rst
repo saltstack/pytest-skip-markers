@@ -13,8 +13,9 @@ Backward incompatible (breaking) changes will only be introduced in major versio
 
 .. towncrier release notes start
 
-skip-markers 1.0.0
- (2021-10-04)
+skip-markers 1.0.0 (2021-10-04)
+===============================
+
 Features
 --------
 
