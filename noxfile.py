@@ -15,11 +15,11 @@ IS_WINDOWS = sys.platform.lower().startswith("win")
 IS_DARWIN = sys.platform.lower().startswith("darwin")
 
 if IS_WINDOWS:
-    COVERAGE_FAIL_UNDER_PERCENT = 70
+    COVERAGE_FAIL_UNDER_PERCENT = 92
 elif IS_DARWIN:
-    COVERAGE_FAIL_UNDER_PERCENT = 75
+    COVERAGE_FAIL_UNDER_PERCENT = 95
 else:
-    COVERAGE_FAIL_UNDER_PERCENT = 80
+    COVERAGE_FAIL_UNDER_PERCENT = 95
 
 # Be verbose when running under a CI context
 PIP_INSTALL_SILENT = (
@@ -179,6 +179,8 @@ def tests(session):
                 "--show-missing",
                 "--include=src/pytestskipmarkers/*,tests/*",
             ]
+            if pytest_version(session) >= (6, 2):
+                cmdline.append("--fail-under={}".format(COVERAGE_FAIL_UNDER_PERCENT))
             session.run(*cmdline)
         finally:
             if COVERAGE_REPORT_DB.exists():
