@@ -1,4 +1,4 @@
-.. image:: https://img.shields.io/github/workflow/status/saltstack/pytest-skip-markers/Testing?style=plastic
+.. image:: https://img.shields.io/github/workflow/status/saltstack/pytest-skip-markers/CI?style=plastic
    :target: https://github.com/saltstack/pytest-skip-markers/actions/workflows/testing.yml
    :alt: CI
 
@@ -8,7 +8,7 @@
    :alt: Docs
 
 
-.. image:: https://img.shields.io/codecov/c/github/saltstack/pytest-skip-markers?style=plastic&token=ctdrjPj4mc
+.. image:: https://img.shields.io/codecov/c/github/saltstack/pytest-skip-markers?style=plastic&token=CqV7t0yKTb
    :target: https://codecov.io/gh/saltstack/pytest-skip-markers
    :alt: Codecov
 
