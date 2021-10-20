@@ -13,7 +13,7 @@ try:
     import win32api
     import win32net
     import win32security
-except ImportError:
+except ImportError:  # pragma: no cover
     # This is not windows
     pass
 
