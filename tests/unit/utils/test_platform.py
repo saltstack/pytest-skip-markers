@@ -99,10 +99,15 @@ def test_is_smartos():
         assert pytestskipmarkers.utils.platform.is_smartos() is return_value
 
 
+def is_sunos_ids(value):
+    return "is_sunos={}".format(value)
+
+
 @pytest.mark.skip_on_windows(reason="Windows does not have `os.uname()`")
-def test_is_not_smartos():
+@pytest.mark.parametrize("is_sunos", [True, False], ids=is_sunos_ids)
+def test_is_not_smartos(is_sunos):
     return_value = False
-    with mock.patch("pytestskipmarkers.utils.platform.is_sunos", return_value=True), mock.patch(
+    with mock.patch("pytestskipmarkers.utils.platform.is_sunos", return_value=is_sunos), mock.patch(
         "os.uname", return_value=(None, None, None, "joy")
     ):
         assert pytestskipmarkers.utils.platform.is_smartos() is return_value
