@@ -11,7 +11,19 @@ import pytest
 
 @pytest.mark.parametrize(
     "platform",
-    ["windows", "linux", "darwin", "sunos", "smartos", "freebsd", "netbsd", "openbsd", "aix"],
+    [
+        "windows",
+        "linux",
+        "darwin",
+        "sunos",
+        "smartos",
+        "freebsd",
+        "netbsd",
+        "openbsd",
+        "aix",
+        "aarch64",
+        "spawning",
+    ],
 )
 def test_skipped(pytester, platform):
     pytester.makepyfile(
@@ -26,9 +38,11 @@ def test_skipped(pytester, platform):
         )
     )
     return_value = False
-    with mock.patch(
-        "pytestskipmarkers.utils.platform.is_{}".format(platform), return_value=return_value
-    ):
+    if platform == "spawning":
+        patch_target = "pytestskipmarkers.utils.platform.is_{}_platform".format(platform)
+    else:
+        patch_target = "pytestskipmarkers.utils.platform.is_{}".format(platform)
+    with mock.patch(patch_target, return_value=return_value):
         res = pytester.runpytest_inprocess()
         res.assert_outcomes(skipped=1)
     res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
@@ -36,7 +50,19 @@ def test_skipped(pytester, platform):
 
 @pytest.mark.parametrize(
     "platform",
-    ["windows", "linux", "darwin", "sunos", "smartos", "freebsd", "netbsd", "openbsd", "aix"],
+    [
+        "windows",
+        "linux",
+        "darwin",
+        "sunos",
+        "smartos",
+        "freebsd",
+        "netbsd",
+        "openbsd",
+        "aix",
+        "aarch64",
+        "spawning",
+    ],
 )
 def test_not_skipped(pytester, platform):
     pytester.makepyfile(
@@ -51,9 +77,11 @@ def test_not_skipped(pytester, platform):
         )
     )
     return_value = True
-    with mock.patch(
-        "pytestskipmarkers.utils.platform.is_{}".format(platform), return_value=return_value
-    ):
+    if platform == "spawning":
+        patch_target = "pytestskipmarkers.utils.platform.is_{}_platform".format(platform)
+    else:
+        patch_target = "pytestskipmarkers.utils.platform.is_{}".format(platform)
+    with mock.patch(patch_target, return_value=return_value):
         res = pytester.runpytest_inprocess()
         res.assert_outcomes(passed=1)
     res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
