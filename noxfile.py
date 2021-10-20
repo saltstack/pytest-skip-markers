@@ -151,37 +151,38 @@ def tests(session):
                 args.remove("--color=yes")
             args.append(arg)
 
-    session.run("coverage", "run", "-m", "pytest", *args, env=env)
-
-    # Generate report for project code coverage
-    session.run(
-        "coverage",
-        "xml",
-        "-o",
-        str(COVERAGE_REPORT_PROJECT),
-        "--omit=tests/*",
-        "--include=src/pytestskipmarkers/*",
-    )
-    # Generate report for tests code coverage
-    session.run(
-        "coverage",
-        "xml",
-        "-o",
-        str(COVERAGE_REPORT_TESTS),
-        "--omit=src/pytestskipmarkers/*",
-        "--include=tests/*",
-    )
     try:
-        cmdline = [
-            "coverage",
-            "report",
-            "--show-missing",
-            "--include=src/pytestskipmarkers/*,tests/*",
-        ]
-        session.run(*cmdline)
+        session.run("coverage", "run", "-m", "pytest", *args, env=env)
     finally:
-        if COVERAGE_REPORT_DB.exists():
-            shutil.copyfile(str(COVERAGE_REPORT_DB), str(ARTIFACTS_DIR / ".coverage"))
+        # Generate report for project code coverage
+        session.run(
+            "coverage",
+            "xml",
+            "-o",
+            str(COVERAGE_REPORT_PROJECT),
+            "--omit=tests/*",
+            "--include=src/pytestskipmarkers/*",
+        )
+        # Generate report for tests code coverage
+        session.run(
+            "coverage",
+            "xml",
+            "-o",
+            str(COVERAGE_REPORT_TESTS),
+            "--omit=src/pytestskipmarkers/*",
+            "--include=tests/*",
+        )
+        try:
+            cmdline = [
+                "coverage",
+                "report",
+                "--show-missing",
+                "--include=src/pytestskipmarkers/*,tests/*",
+            ]
+            session.run(*cmdline)
+        finally:
+            if COVERAGE_REPORT_DB.exists():
+                shutil.copyfile(str(COVERAGE_REPORT_DB), str(ARTIFACTS_DIR / ".coverage"))
 
 
 def _lint(session, rcfile, flags, paths):
