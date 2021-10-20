@@ -204,3 +204,13 @@ def test_is_fips_enabled_sysctl(output, expected):
         "subprocess.run", return_value=subprocess_run_return_value
     ):
         assert pytestskipmarkers.utils.platform.is_fips_enabled() is expected
+
+
+def test_is_spawning_platform():
+    with mock.patch("multiprocessing.get_start_method", return_value="spawn"):
+        assert pytestskipmarkers.utils.platform.is_spawning_platform() is True
+
+
+def test_is_not_spawning_platform():
+    with mock.patch("multiprocessing.get_start_method", return_value="fork"):
+        assert pytestskipmarkers.utils.platform.is_spawning_platform() is False
