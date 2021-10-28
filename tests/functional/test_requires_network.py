@@ -20,8 +20,13 @@ def test_has_local_network(pytester):
             assert True
         """
     )
-    res = pytester.runpytest()
-    res.assert_outcomes(passed=1)
+    with mock.patch(
+        "pytestskipmarkers.utils.ports.get_unused_localhost_port",
+        side_effect=[ports.get_unused_localhost_port() for n in range(10)],
+    ):
+        with mock.patch("pytestskipmarkers.utils.markers.socket.socket"):
+            res = pytester.runpytest()
+            res.assert_outcomes(passed=1)
     res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
 
 
