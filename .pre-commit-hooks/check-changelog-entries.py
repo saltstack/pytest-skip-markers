@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2021 VMware, Inc.
+# SPDX-License-Identifier: Apache-2.0
+#
 # pylint: skip-file
 import argparse
 import pathlib
