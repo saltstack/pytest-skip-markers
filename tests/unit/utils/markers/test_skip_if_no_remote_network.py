@@ -14,7 +14,8 @@ from pytestskipmarkers.utils import socket
 
 
 def test_has_remote_network():
-    assert markers.skip_if_no_remote_network() is None
+    with mock.patch("pytestskipmarkers.utils.markers.socket.socket"):
+        assert markers.skip_if_no_remote_network() is None
 
 
 def test_no_remote_network():
