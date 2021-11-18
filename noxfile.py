@@ -76,6 +76,24 @@ def pytest_version(session):
     return session._runner._pytest_version_info
 
 
+def python_version(session):
+    try:
+        return session._runner._python_version_info
+    except AttributeError:
+        session_python_version = session_run_always(
+            session,
+            "python",
+            "-c",
+            'import sys; sys.stdout.write("{}.{}.{}".format(*sys.version_info))',
+            silent=True,
+            log=False,
+        )
+        session._runner._python_version_info = tuple(
+            int(part) for part in session_python_version.split(".") if part.isdigit()
+        )
+    return session._runner._python_version_info
+
+
 def session_run_always(session, *command, **kwargs):
     try:
         # Guess we weren't the only ones wanting this
@@ -102,6 +120,10 @@ def tests(session):
     if SKIP_REQUIREMENTS_INSTALL is False:
         # Always have the wheel package installed
         session.install("wheel", silent=PIP_INSTALL_SILENT)
+        if python_version(session) < (3, 6):
+            # coverage will pull more-itertools and after versions 8.11.0, itertools
+            # is no longer Py3.5 compatible
+            session.install("more-itertools<8.11.0")
         session.install(COVERAGE_VERSION_REQUIREMENT, silent=PIP_INSTALL_SILENT)
         pytest_version_requirement = os.environ.get("PYTEST_VERSION_REQUIREMENT") or None
         if pytest_version_requirement:
