@@ -29,6 +29,7 @@ intersphinx
 intl
 ips
 iterable
+itertools
 linkcheck
 linux
 localhost
