@@ -16,11 +16,15 @@ import logging
 import os
 import shutil
 
+import _pytest._version
 import pytest
 
 import pytestskipmarkers.utils.platform
 import pytestskipmarkers.utils.ports as ports
 import pytestskipmarkers.utils.socket as socket
+
+
+PYTEST_GE_7 = getattr(_pytest._version, "version_tuple", (-1, -1)) >= (7, 0)
 
 log = logging.getLogger(__name__)
 
@@ -162,6 +166,9 @@ def evaluate_markers(item):
     """
     Fixtures injection based on markers or test skips based on CLI arguments
     """
+    exc_kwargs = {}
+    if PYTEST_GE_7:
+        exc_kwargs["_use_item_location"] = True
     destructive_tests_marker = item.get_closest_marker("destructive_test")
     if destructive_tests_marker is not None:
         if destructive_tests_marker.args or destructive_tests_marker.kwargs:
@@ -169,8 +176,7 @@ def evaluate_markers(item):
                 "The 'destructive_test' marker does not accept any arguments or keyword arguments"
             )
         if item.config.getoption("--run-destructive") is False:
-            item._skipped_by_mark = True
-            pytest.skip("Destructive tests are disabled")
+            raise pytest.skip.Exception("Destructive tests are disabled", **exc_kwargs)
 
     expensive_tests_marker = item.get_closest_marker("expensive_test")
     if expensive_tests_marker is not None:
@@ -179,8 +185,7 @@ def evaluate_markers(item):
                 "The 'expensive_test' marker does not accept any arguments or keyword arguments"
             )
         if item.config.getoption("--run-expensive") is False:
-            item._skipped_by_mark = True
-            pytest.skip("Expensive tests are disabled")
+            raise pytest.skip.Exception("Expensive tests are disabled", **exc_kwargs)
 
     skip_if_not_root_marker = item.get_closest_marker("skip_if_not_root")
     if skip_if_not_root_marker is not None:
@@ -190,8 +195,7 @@ def evaluate_markers(item):
             )
         skip_reason = skip_if_not_root()
         if skip_reason:
-            item._skipped_by_mark = True
-            pytest.skip(skip_reason)
+            raise pytest.skip.Exception(skip_reason, **exc_kwargs)
 
     skip_if_binaries_missing_marker = item.get_closest_marker("skip_if_binaries_missing")
     if skip_if_binaries_missing_marker is not None:
@@ -216,8 +220,7 @@ def evaluate_markers(item):
             skip_if_binaries_missing_marker.kwargs["reason"] = message
         skip_reason = skip_if_binaries_missing(binaries, **skip_if_binaries_missing_marker.kwargs)
         if skip_reason:
-            item._skipped_by_mark = True
-            pytest.skip(skip_reason)
+            raise pytest.skip.Exception(skip_reason, **exc_kwargs)
 
     requires_network_marker = item.get_closest_marker("requires_network")
     if requires_network_marker is not None:
@@ -226,14 +229,12 @@ def evaluate_markers(item):
         if local_skip_reason:
             # Since we're only supposed to check local network, and no
             # local network was detected, skip the test
-            item._skipped_by_mark = True
-            pytest.skip(local_skip_reason)
+            raise pytest.skip.Exception(local_skip_reason, **exc_kwargs)
 
         if only_local_network is False:
             remote_skip_reason = skip_if_no_remote_network()
             if remote_skip_reason:
-                item._skipped_by_mark = True
-                pytest.skip(remote_skip_reason)
+                raise pytest.skip.Exception(remote_skip_reason, **exc_kwargs)
 
     # Platform Skip Markers
     skip_on_windows_marker = item.get_closest_marker("skip_on_windows")
@@ -248,8 +249,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Skipped on Windows"
         if pytestskipmarkers.utils.platform.is_windows():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_unless_on_windows_marker = item.get_closest_marker("skip_unless_on_windows")
     if skip_unless_on_windows_marker is not None:
@@ -265,8 +265,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Platform is not Windows, skipped"
         if not pytestskipmarkers.utils.platform.is_windows():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_on_linux_marker = item.get_closest_marker("skip_on_linux")
     if skip_on_linux_marker is not None:
@@ -280,8 +279,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Skipped on Linux"
         if pytestskipmarkers.utils.platform.is_linux():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_unless_on_linux_marker = item.get_closest_marker("skip_unless_on_linux")
     if skip_unless_on_linux_marker is not None:
@@ -295,8 +293,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Platform is not Linux, skipped"
         if not pytestskipmarkers.utils.platform.is_linux():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_on_darwin_marker = item.get_closest_marker("skip_on_darwin")
     if skip_on_darwin_marker is not None:
@@ -310,8 +307,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Skipped on Darwin"
         if pytestskipmarkers.utils.platform.is_darwin():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_unless_on_darwin_marker = item.get_closest_marker("skip_unless_on_darwin")
     if skip_unless_on_darwin_marker is not None:
@@ -327,8 +323,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Platform is not Darwin, skipped"
         if not pytestskipmarkers.utils.platform.is_darwin():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_on_sunos_marker = item.get_closest_marker("skip_on_sunos")
     if skip_on_sunos_marker is not None:
@@ -342,8 +337,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Skipped on SunOS"
         if pytestskipmarkers.utils.platform.is_sunos():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_unless_on_sunos_marker = item.get_closest_marker("skip_unless_on_sunos")
     if skip_unless_on_sunos_marker is not None:
@@ -357,8 +351,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Platform is not SunOS, skipped"
         if not pytestskipmarkers.utils.platform.is_sunos():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_on_smartos_marker = item.get_closest_marker("skip_on_smartos")
     if skip_on_smartos_marker is not None:
@@ -372,8 +365,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Skipped on SmartOS"
         if pytestskipmarkers.utils.platform.is_smartos():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_unless_on_smartos_marker = item.get_closest_marker("skip_unless_on_smartos")
     if skip_unless_on_smartos_marker is not None:
@@ -389,8 +381,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Platform is not SmartOS, skipped"
         if not pytestskipmarkers.utils.platform.is_smartos():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_on_freebsd_marker = item.get_closest_marker("skip_on_freebsd")
     if skip_on_freebsd_marker is not None:
@@ -404,8 +395,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Skipped on FreeBSD"
         if pytestskipmarkers.utils.platform.is_freebsd():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_unless_on_freebsd_marker = item.get_closest_marker("skip_unless_on_freebsd")
     if skip_unless_on_freebsd_marker is not None:
@@ -421,8 +411,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Platform is not FreeBSD, skipped"
         if not pytestskipmarkers.utils.platform.is_freebsd():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_on_netbsd_marker = item.get_closest_marker("skip_on_netbsd")
     if skip_on_netbsd_marker is not None:
@@ -436,8 +425,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Skipped on NetBSD"
         if pytestskipmarkers.utils.platform.is_netbsd():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_unless_on_netbsd_marker = item.get_closest_marker("skip_unless_on_netbsd")
     if skip_unless_on_netbsd_marker is not None:
@@ -453,8 +441,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Platform is not NetBSD, skipped"
         if not pytestskipmarkers.utils.platform.is_netbsd():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_on_openbsd_marker = item.get_closest_marker("skip_on_openbsd")
     if skip_on_openbsd_marker is not None:
@@ -468,8 +455,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Skipped on OpenBSD"
         if pytestskipmarkers.utils.platform.is_openbsd():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_unless_on_openbsd_marker = item.get_closest_marker("skip_unless_on_openbsd")
     if skip_unless_on_openbsd_marker is not None:
@@ -485,8 +471,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Platform is not OpenBSD, skipped"
         if not pytestskipmarkers.utils.platform.is_openbsd():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_on_aix_marker = item.get_closest_marker("skip_on_aix")
     if skip_on_aix_marker is not None:
@@ -500,8 +485,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Skipped on AIX"
         if pytestskipmarkers.utils.platform.is_aix():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_unless_on_aix_marker = item.get_closest_marker("skip_unless_on_aix")
     if skip_unless_on_aix_marker is not None:
@@ -515,8 +499,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Platform is not AIX, skipped"
         if not pytestskipmarkers.utils.platform.is_aix():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_on_aarch64_marker = item.get_closest_marker("skip_on_aarch64")
     if skip_on_aarch64_marker is not None:
@@ -530,8 +513,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Skipped on AArch64"
         if pytestskipmarkers.utils.platform.is_aarch64():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_unless_on_aarch64_marker = item.get_closest_marker("skip_unless_on_aarch64")
     if skip_unless_on_aarch64_marker is not None:
@@ -547,8 +529,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Platform is not AArch64, skipped"
         if not pytestskipmarkers.utils.platform.is_aarch64():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_on_spawning_platform_marker = item.get_closest_marker("skip_on_spawning_platform")
     if skip_on_spawning_platform_marker is not None:
@@ -564,8 +545,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Skipped on spawning platforms"
         if pytestskipmarkers.utils.platform.is_spawning_platform():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_unless_on_spawning_platform_marker = item.get_closest_marker(
         "skip_unless_on_spawning_platform"
@@ -583,8 +563,7 @@ def evaluate_markers(item):
         if reason is None:
             reason = "Platform does not default multiprocessing to spawn, skipped"
         if not pytestskipmarkers.utils.platform.is_spawning_platform():
-            item._skipped_by_mark = True
-            pytest.skip(reason)
+            raise pytest.skip.Exception(reason, **exc_kwargs)
 
     skip_on_platforms_marker = item.get_closest_marker("skip_on_platforms")
     if skip_on_platforms_marker is not None:
@@ -603,8 +582,7 @@ def evaluate_markers(item):
             reason = "Skipped on platform match"
         try:
             if pytestskipmarkers.utils.platform.on_platforms(**skip_on_platforms_marker.kwargs):
-                item._skipped_by_mark = True
-                pytest.skip(reason)
+                raise pytest.skip.Exception(reason, **exc_kwargs)
         except TypeError as exc:
             raise pytest.UsageError(
                 "Passed an invalid platform to skip_on_platforms: {}".format(exc)
@@ -631,8 +609,7 @@ def evaluate_markers(item):
             if not pytestskipmarkers.utils.platform.on_platforms(
                 **skip_unless_on_platforms_marker.kwargs
             ):
-                item._skipped_by_mark = True
-                pytest.skip(reason)
+                raise pytest.skip.Exception(reason, **exc_kwargs)
         except TypeError as exc:
             raise pytest.UsageError(
                 "Passed an invalid platform to skip_unless_on_platforms: {}".format(exc)
