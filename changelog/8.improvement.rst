@@ -1,1 +1,0 @@
-The plugin is now fully typed

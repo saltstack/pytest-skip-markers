@@ -1,4 +1,0 @@
-Reproducible builds
-
-* Fix copyright headers hook
-* ``towncrier`` now uses ``issue_format``

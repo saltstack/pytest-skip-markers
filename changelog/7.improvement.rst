@@ -1,1 +1,0 @@
-Maintain the skip location under Pytest >= 7.0.x
