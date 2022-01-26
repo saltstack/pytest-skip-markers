@@ -21,6 +21,7 @@ favicon
 favicons
 freebsd
 getsockname
+gz
 https
 ico
 illumos
@@ -36,6 +37,7 @@ localhost
 lru
 lsof
 macos
+mtime
 namespace
 netbsd
 nox
@@ -52,6 +54,7 @@ pytestskipmarkers
 rc
 rst
 rtype
+sdist
 sid
 sids
 sitevars
