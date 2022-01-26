@@ -39,7 +39,9 @@ lsof
 macos
 mtime
 namespace
+namespaced
 netbsd
+noqa
 nox
 openbsd
 os

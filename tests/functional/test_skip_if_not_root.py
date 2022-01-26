@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-    tests.functional.markers.test_skip_if_not_root
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Test the ``@pytest.mark.skip_if_not_root`` marker
+Test the ``@pytest.mark.skip_if_not_root`` marker.
 """
 import sys
 from unittest import mock

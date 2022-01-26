@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-    tests.unit.utils.markers.test_skip_if_no_local_network
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Test the "skip_if_no_local_network" marker helper
+Test the "skip_if_no_local_network" marker helper.
 """
 from unittest import mock
 

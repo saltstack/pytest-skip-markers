@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-tests.utils.test_ports
-~~~~~~~~~~~~~~~~~~~~~~
-
-Test the port related utilities
+Test the port related utilities.
 """
 import functools
 from unittest import mock
@@ -17,8 +14,7 @@ import pytestskipmarkers.utils.ports as ports_utils
 
 class MockedCreateSocket:
     """
-    This class just mocks the `socket.socket(...)` call so that we return
-    the ports we want
+    This class just mocks the `socket.socket(...)` call so that we return the ports we want.
     """
 
     def __init__(self, ports):
@@ -32,7 +28,7 @@ class MockedCreateSocket:
 
 class MockedSocket:
     """
-    This class is used so that we can return the known port in the getsockname call
+    This class is used so that we can return the known port in the getsockname call.
     """
 
     def __init__(self, port):
@@ -50,7 +46,7 @@ class MockedSocket:
 
 def test_get_unused_localhost_port_cached():
     """
-    Tests that test_get_unused_localhost_port only returns unique ports on consecutive calls
+    Tests that test_get_unused_localhost_port only returns unique ports on consecutive calls.
     """
     num_calls = 10
     start_port = 1000

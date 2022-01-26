@@ -7,6 +7,7 @@ Platform related utilities.
 ..
     PYTEST_DONT_REWRITE
 """
+from __future__ import generator_stop
 import multiprocessing
 import os
 import pathlib
@@ -24,7 +25,7 @@ def is_windows() -> bool:
 
     :return bool: Return true on Windows
     """
-    return sys.platform.startswith("win")
+    return sys.platform.startswith('win')
 
 
 @lru_cache(maxsize=None)
@@ -35,7 +36,7 @@ def is_linux() -> bool:
     Note for a proxy minion, we need to return something else
     :return bool: Return true on Linux
     """
-    return sys.platform.startswith("linux")
+    return sys.platform.startswith('linux')
 
 
 @lru_cache(maxsize=None)
@@ -45,7 +46,7 @@ def is_darwin() -> bool:
 
     :return bool: Return true on Darwin(macOS)
     """
-    return sys.platform.startswith("darwin")
+    return sys.platform.startswith('darwin')
 
 
 @lru_cache(maxsize=None)
@@ -55,7 +56,7 @@ def is_sunos() -> bool:
 
     :return bool: Return true on SunOS
     """
-    return sys.platform.startswith("sunos")
+    return sys.platform.startswith('sunos')
 
 
 @lru_cache(maxsize=None)
@@ -66,7 +67,7 @@ def is_smartos() -> bool:
     :return bool: Return true on SmartOS (Illumos)
     """
     if is_sunos():
-        return os.uname()[3].startswith("joyent_")
+        return os.uname()[3].startswith('joyent_')
     return False
 
 
@@ -77,7 +78,7 @@ def is_freebsd() -> bool:
 
     :return bool: Return true on FreeBSD
     """
-    return sys.platform.startswith("freebsd")
+    return sys.platform.startswith('freebsd')
 
 
 @lru_cache(maxsize=None)
@@ -87,7 +88,7 @@ def is_netbsd() -> bool:
 
     :return bool: Return true on NetBSD
     """
-    return sys.platform.startswith("netbsd")
+    return sys.platform.startswith('netbsd')
 
 
 @lru_cache(maxsize=None)
@@ -97,7 +98,7 @@ def is_openbsd() -> bool:
 
     :return bool: Return true on OpenBSD
     """
-    return sys.platform.startswith("openbsd")
+    return sys.platform.startswith('openbsd')
 
 
 @lru_cache(maxsize=None)
@@ -107,7 +108,7 @@ def is_aix() -> bool:
 
     :return bool: Return true on AIX
     """
-    return sys.platform.startswith("aix")
+    return sys.platform.startswith('aix')
 
 
 @lru_cache(maxsize=None)
@@ -115,14 +116,14 @@ def is_aarch64() -> bool:
     """
     Simple function to return if host is AArch64 or not.
     """
-    return platform.machine().startswith("aarch64")
+    return platform.machine().startswith('aarch64')
 
 
 def is_spawning_platform() -> bool:
     """
     Returns ``True`` if running on a platform which defaults multiprocessing to spawn.
     """
-    return multiprocessing.get_start_method(allow_none=False) == "spawn"
+    return multiprocessing.get_start_method(allow_none=False) == 'spawn'
 
 
 def on_platforms(
@@ -157,37 +158,26 @@ def on_platforms(
     """
     if windows and is_windows():
         return True
-
     if linux and is_linux():
         return True
-
     if darwin and is_darwin():
         return True
-
     if sunos and is_sunos():
         return True
-
     if smartos and is_smartos():
         return True
-
     if freebsd and is_freebsd():
         return True
-
     if netbsd and is_netbsd():
         return True
-
     if openbsd and is_openbsd():
         return True
-
     if aix and is_aix():
         return True
-
     if aarch64 and is_aarch64():
         return True
-
     if spawning and is_spawning_platform():
         return True
-
     return False
 
 
@@ -197,19 +187,19 @@ def is_fips_enabled() -> bool:
 
     :return bool: Return true when enabled
     """
-    if pathlib.Path("/etc/system-fips").exists():
+    if pathlib.Path('/etc/system-fips').exists():
         return True
-    kernel_fips_enabled_path = pathlib.Path("/proc/sys/crypto/fips_enabled")
+    kernel_fips_enabled_path = pathlib.Path('/proc/sys/crypto/fips_enabled')
     if (
         kernel_fips_enabled_path.exists()
-        and kernel_fips_enabled_path.read_text(encoding="utf-8").strip() == "1"
+        and kernel_fips_enabled_path.read_text(encoding='utf-8').strip() == '1'
     ):
         return True
-    sysctl_path = shutil.which("sysctl")
+    sysctl_path = shutil.which('sysctl')
     if not sysctl_path:
         return False
     ret = subprocess.run(
-        [sysctl_path, "crypto.fips_enabled"],
+        [sysctl_path, 'crypto.fips_enabled'],
         check=False,
         shell=False,
         stdout=subprocess.PIPE,
@@ -218,11 +208,9 @@ def is_fips_enabled() -> bool:
     if ret.returncode == 0:
         stripped_output = ret.stdout.strip()
         if not stripped_output:
-            # No output?
             return False
-        if "=" not in stripped_output:
-            # Don't know how to parse this
+        if '=' not in stripped_output:
             return False
-        if stripped_output.split("=")[-1].strip() == "1":
+        if stripped_output.split('=')[-1].strip() == '1':
             return True
     return False

@@ -20,11 +20,11 @@ IS_WINDOWS = sys.platform.lower().startswith("win")
 IS_DARWIN = sys.platform.lower().startswith("darwin")
 
 if IS_WINDOWS:
-    COVERAGE_FAIL_UNDER_PERCENT = 92
+    COVERAGE_FAIL_UNDER_PERCENT = 91
 elif IS_DARWIN:
-    COVERAGE_FAIL_UNDER_PERCENT = 95
+    COVERAGE_FAIL_UNDER_PERCENT = 93
 else:
-    COVERAGE_FAIL_UNDER_PERCENT = 95
+    COVERAGE_FAIL_UNDER_PERCENT = 93
 
 # Be verbose when running under a CI context
 PIP_INSTALL_SILENT = (
@@ -116,7 +116,7 @@ def session_run_always(session, *command, **kwargs):
 @nox.session(python=("3", "3.5", "3.6", "3.7", "3.8", "3.9"))
 def tests(session):
     """
-    Run tests
+    Run tests.
     """
     env = {}
     if SKIP_REQUIREMENTS_INSTALL is False:
@@ -238,7 +238,7 @@ def _lint(session, rcfile, flags, paths):
             sys.stdout.flush()
             if pylint_report_path:
                 # Write report
-                with open(pylint_report_path, "w") as wfh:
+                with open(pylint_report_path, "w", encoding="utf-8") as wfh:
                     wfh.write(contents)
                 session.log("Report file written to %r", pylint_report_path)
         stdout.close()
@@ -258,7 +258,7 @@ def lint_code(session):
     """
     Run PyLint against the code. Set PYLINT_REPORT to a path to capture output.
     """
-    flags = ["--disable=I"]
+    flags = ["--disable=I", "--ignore-paths=src/pytestskipmarkers/downgraded/.*"]
     if session.posargs:
         paths = session.posargs
     else:
@@ -282,7 +282,7 @@ def lint_tests(session):
 @nox.session(python="3")
 def docs(session):
     """
-    Build Docs
+    Build Docs.
     """
     session.install(
         "--progress-bar=off",
@@ -297,7 +297,7 @@ def docs(session):
     session.run("make", "coverage", "SPHINXOPTS=-W", external=True)
     docs_coverage_file = os.path.join("_build", "html", "python.txt")
     if os.path.exists(docs_coverage_file):
-        with open(docs_coverage_file) as rfh:
+        with open(docs_coverage_file, encoding="utf-8") as rfh:
             contents = rfh.readlines()[2:]
             if contents:
                 session.error("\n" + "".join(contents))
@@ -308,7 +308,7 @@ def docs(session):
 @nox.session(name="docs-dev", python="3")
 def docs_dev(session):
     """
-    Build Docs
+    Build Docs.
     """
     session.install(
         "--progress-bar=off",
@@ -325,7 +325,7 @@ def docs_dev(session):
 @nox.session(name="docs-crosslink-info", python="3")
 def docs_crosslink_info(session):
     """
-    Report intersphinx cross links information
+    Report intersphinx cross links information.
     """
     session.install(
         "--progress-bar=off",
@@ -367,7 +367,7 @@ def docs_crosslink_info(session):
 @nox.session(name="gen-api-docs", python="3")
 def gen_api_docs(session):
     """
-    Generate API Docs
+    Generate API Docs.
     """
     session.install(
         "--progress-bar=off",

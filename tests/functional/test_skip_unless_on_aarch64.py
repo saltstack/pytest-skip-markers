@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-    tests.functional.markers.test_skip_unless_on_aarch64
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Test the ``@pytest.mark.skip_unless_on_aarch64`` marker
+Test the ``@pytest.mark.skip_unless_on_aarch64`` marker.
 """
 from unittest import mock
 

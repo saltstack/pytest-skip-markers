@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-    tests.unit.utils.test_platform
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Tests for pytestskipmarkers.utils.platform
+Tests for pytestskipmarkers.utils.platform.
 """
 import logging
 import subprocess
@@ -200,7 +197,7 @@ def test_is_fips_enabled_procfs(fs, value, expected):
     ),
 )
 def test_is_fips_enabled_sysctl(output, expected):
-    subprocess_run_return_value = subprocess.CompletedProcess(
+    subprocess_run_return_value = subprocess.CompletedProcess(  # type: ignore[var-annotated]
         args=(), returncode=0, stdout=output, stderr=None
     )
     with mock.patch("shutil.which", return_value="sysctl"), mock.patch(

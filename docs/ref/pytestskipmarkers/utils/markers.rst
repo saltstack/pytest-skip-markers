@@ -1,3 +1,6 @@
+PyTest Markers related utilities
+================================
+
 .. automodule:: pytestskipmarkers.utils.markers
    :members:
    :show-inheritance:

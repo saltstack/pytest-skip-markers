@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-    tests.unit.utils.markers.test_skip_if_binaries_missing
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Test the "skip_if_binaries_missing" marker helper
+Test the "skip_if_binaries_missing" marker helper.
 """
 import os
 import sys

@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-    tests.functional.markers.test_skip_on_windows
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Test the ``@pytest.mark.skip_on_windows`` marker
+Test the ``@pytest.mark.skip_on_windows`` marker.
 """
 from unittest import mock
 
