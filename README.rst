@@ -68,6 +68,7 @@ Once installed, you can now skip some tests with some simple pytest markers, for
 
    import pytest
 
+
    @pytest.mark.skip_unless_on_linux
    def test_on_linux():
        assert True

@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-    tests.functional.markers.test_skip_unless_on_freebsd
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Test the ``@pytest.mark.skip_unless_on_freebsd`` marker
+Test the ``@pytest.mark.skip_unless_on_freebsd`` marker.
 """
 from unittest import mock
 

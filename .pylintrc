@@ -113,7 +113,8 @@ disable=R,
   import-outside-toplevel,
   wrong-import-position,
   wrong-import-order,
-  missing-whitespace-after-comma
+  missing-whitespace-after-comma,
+  consider-using-f-string
 
 # Disabled:
 # R* [refactoring suggestions & reports]

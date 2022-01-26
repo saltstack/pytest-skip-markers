@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-    tests.functional.markers.test_skip_on_darwin
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Test the ``@pytest.mark.skip_on_darwin`` marker
+Test the ``@pytest.mark.skip_on_darwin`` marker.
 """
 from unittest import mock
 

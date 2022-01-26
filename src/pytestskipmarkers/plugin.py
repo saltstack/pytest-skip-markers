@@ -1,14 +1,24 @@
 # Copyright 2021-2022 VMware, Inc.
 # SPDX-License-Identifier: Apache-2.0
 #
+"""
+Pytest plugin hooks.
+"""
+from typing import TYPE_CHECKING
+
 import pytest
 
 import pytestskipmarkers.utils.markers
 
+if TYPE_CHECKING:
+    from _pytest.config import Config
+    from _pytest.config.argparsing import Parser
+    from _pytest.nodes import Item
 
-def pytest_addoption(parser):
+
+def pytest_addoption(parser: "Parser") -> None:
     """
-    register argparse-style options and ini-style config values.
+    Register argparse-style options and ini-style config values.
     """
     test_selection_group = parser.getgroup("Tests Selection")
     test_selection_group.addoption(
@@ -29,18 +39,20 @@ def pytest_addoption(parser):
     )
 
 
-@pytest.hookimpl(tryfirst=True)
-def pytest_runtest_setup(item):
+@pytest.hookimpl(tryfirst=True)  # type: ignore[misc]
+def pytest_runtest_setup(item: "Item") -> None:
     """
-    Fixtures injection based on markers or test skips based on CLI arguments
+    Fixtures injection based on markers or test skips based on CLI arguments.
     """
     __tracebackhide__ = True
     pytestskipmarkers.utils.markers.evaluate_markers(item)
 
 
-@pytest.mark.trylast
-def pytest_configure(config):
+@pytest.mark.trylast  # type: ignore[misc]
+def pytest_configure(config: "Config") -> None:
     """
+    Configure the plugin.
+
     called after command line options have been parsed
     and all plugins and initial conftest files been loaded.
     """

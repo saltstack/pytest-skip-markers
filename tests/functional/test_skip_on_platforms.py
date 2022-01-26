@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-    tests.functional.markers.test_skip_on_platforms
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Test the ``@pytest.mark.skip_on_platforms`` marker
+Test the ``@pytest.mark.skip_on_platforms`` marker.
 """
 from unittest import mock
 
@@ -126,6 +123,7 @@ def test_unknown_platform(pytester):
     res = pytester.runpytest_inprocess()
     res.stdout.fnmatch_lines(
         [
-            "*UsageError: Passed an invalid platform to skip_on_platforms: on_platforms() got an unexpected keyword argument 'car'"
+            "*UsageError: Passed an invalid platform to skip_on_platforms: "
+            "on_platforms() got an unexpected keyword argument 'car'"
         ]
     )

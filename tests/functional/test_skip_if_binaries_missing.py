@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-    tests.functional.markers.test_skip_if_binaries_missing
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Test the ``@pytest.mark.skip_if_binaries_missing`` marker
+Test the ``@pytest.mark.skip_if_binaries_missing`` marker.
 """
 import os
 import sys

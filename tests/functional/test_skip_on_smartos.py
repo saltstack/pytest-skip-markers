@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """
-    tests.functional.markers.test_skip_on_smartos
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Test the ``@pytest.mark.skip_on_smartos`` marker
+Test the ``@pytest.mark.skip_on_smartos`` marker.
 """
 from unittest import mock
 
