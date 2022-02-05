@@ -1,1 +1,0 @@
-Allow installing on older minior versions of Py3.5. Looking at you Debian.

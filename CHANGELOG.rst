@@ -13,6 +13,15 @@ Backward incompatible (breaking) changes will only be introduced in major versio
 
 .. towncrier release notes start
 
+1.1.1 (2022-02-05)
+==================
+
+Bug Fixes
+---------
+
+- Allow installing on older minior versions of Py3.5. Looking at you Debian. (`#10 <https://github.com/saltstack/pytest-skip-markers/issues/10>`_)
+
+
 1.1.0 (2022-01-26)
 ==================
 
