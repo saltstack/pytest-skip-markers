@@ -13,6 +13,15 @@ Backward incompatible (breaking) changes will only be introduced in major versio
 
 .. towncrier release notes start
 
+1.1.2 (2022-02-05)
+==================
+
+Bug Fixes
+---------
+
+- Set lower required python to `3.5.2` and avoid issues with `flake8-typing-imports`. (`#10 <https://github.com/saltstack/pytest-skip-markers/issues/10>`_)
+
+
 1.1.1 (2022-02-05)
 ==================
 
