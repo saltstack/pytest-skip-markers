@@ -13,6 +13,15 @@ Backward incompatible (breaking) changes will only be introduced in major versio
 
 .. towncrier release notes start
 
+1.1.3 (2022-02-16)
+==================
+
+Bug Fixes
+---------
+
+- Fixed issue with ``sdist`` recompression for reproducible packages not iterating though subdirectories contents. (`#12 <https://github.com/saltstack/pytest-skip-markers/issues/12>`_)
+
+
 1.1.2 (2022-02-05)
 ==================
 
