@@ -565,6 +565,41 @@ Markers
 
 
 
+.. _markers.skip_on_env:
+
+``skip_on_env``
+===============
+
+.. py:decorator:: pytest.mark.skip_on_env(envvar, present=True, eq=None, ne=None)
+
+    :keyword str varname: The environment variable to check
+    :keyword bool present:
+        When ``True``, skip if variable is present in the environment.
+        When ``False``, skip if variable is not present in the environment.
+    :keyword str eq: Skips when the variable is present in the environment and matches this value.
+    :keyword str ne: Skips when the variable is present in the environment and does not match this value.
+    :keyword str reason: The skip reason
+
+    Skip test based on the presence/absence of `envvar` in the environment and it's value.
+
+    .. code-block:: python
+
+        @pytest.mark.skip_on_env("FLAKY_TEST")
+        def test_func():
+            assert True
+
+
+        @pytest.mark.skip_on_env("FLAKY_TEST", eq="1")
+        def test_func():
+            assert True
+
+
+        @pytest.mark.skip_on_env("FLAKY_TEST", present=False)
+        def test_func():
+            assert True
+
+
+
 .. _markers.skip_on_platforms:
 
 ``skip_on_platforms``

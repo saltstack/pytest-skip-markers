@@ -168,6 +168,63 @@ def skip_if_no_remote_network() -> Optional[str]:
     return None
 
 
+def skip_on_env(
+    varname: str,
+    present: bool = True,
+    eq: Optional[str] = None,
+    ne: Optional[str] = None,
+    reason: Optional[str] = None,
+) -> Optional[str]:
+    """
+    Helper function to check for environment variables.
+
+    If any of the checks match, return the skip reason.
+
+    Args:
+        varname(str):
+            The environment variable to check
+        present(bool):
+            When ``True``, skip if variable is present in the environment.
+            When ``False``, skip if variable is not present in the environment.
+        eq(str):
+            Skips when the variable is present in the environment and matches this value.
+        ne(str):
+            Skips when the variable is present in the environment and does not match this value.
+        reason(str):
+            The custom reason message to use.
+
+    Returns:
+        str: The skip reason
+        None: Should not be skipped.
+    """
+    if eq and ne:
+        raise pytest.UsageError('Cannot pass both `eq` and `ne`.')
+    if present is False and (eq or ne):
+        raise pytest.UsageError('Cannot pass `present=False` and either `eq` or `ne`.')
+    if present is False and varname not in os.environ:
+        if not reason:
+            reason = "The variable '{0}' is not present in the environ.".format(varname)
+        return reason
+    elif present is True and varname in os.environ:
+        varname_value = os.environ[varname]
+        if eq:
+            if varname_value == eq:
+                if not reason:
+                    reason = "'{0}' present in environ and '{1}=={2}'".format(
+                        varname, varname, eq
+                    )
+        elif ne:
+            if varname_value != ne:
+                if not reason:
+                    reason = "'{0}' present in environ and '{1}!={2}'".format(
+                        varname, varname, eq
+                    )
+        elif not reason:
+            reason = "The variable '{0}' is present in the environ.".format(varname)
+        return reason
+    return None
+
+
 def evaluate_markers(item: 'Item') -> None:
     """
     Fixtures injection based on markers or test skips based on CLI arguments.
@@ -695,3 +752,31 @@ def evaluate_markers(item: 'Item') -> None:
             raise pytest.UsageError(
                 'Passed an invalid platform to skip_unless_on_platforms: {}'.format(exc)
             )
+    skip_on_env_marker = item.get_closest_marker('skip_on_env')
+    if skip_on_env_marker is not None:
+        args = list(skip_on_env_marker.args)
+        if not args:
+            raise pytest.UsageError(
+                "The 'skip_on_env' marker needs at least one argument to be passed, the environment variable name."
+            )
+        envvar = args.pop(0)
+        if args:
+            raise pytest.UsageError(
+                "The 'skip_on_env' only accepts one argument, the environment variable name."
+            )
+        if not isinstance(envvar, str):
+            raise pytest.UsageError(
+                'The environment variable argument must be a string.'
+            )
+        kwargs = cast(Dict[str, Any], skip_on_env_marker.kwargs).copy()
+        present = kwargs.pop('present', True)
+        eq = kwargs.pop('eq', None)
+        ne = kwargs.pop('ne', None)
+        reason = kwargs.pop('reason', None)
+        if kwargs:
+            raise pytest.UsageError(
+                "The 'skip_on_env' marker only accepts 'present', 'eq', 'ne' and 'reason' as keyword arguments."
+            )
+        skip_reason = skip_on_env(envvar, present=present, eq=eq, ne=ne, reason=reason)
+        if skip_reason:
+            raise pytest.skip.Exception(skip_reason, **exc_kwargs)
