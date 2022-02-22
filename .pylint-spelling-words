@@ -17,6 +17,7 @@ cwd
 darwin
 dns
 eg
+eq
 favicon
 favicons
 freebsd
@@ -40,6 +41,7 @@ macos
 mtime
 namespace
 namespaced
+ne
 netbsd
 noqa
 nox
@@ -67,5 +69,6 @@ sys
 toml
 towncrier
 utils
+varname
 virtualenvs
 vmware

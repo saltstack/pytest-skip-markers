@@ -195,3 +195,8 @@ def pytest_configure(config: "Config") -> None:
         "netbsd=False, openbsd=False, aix=False, aarch64=False, spawning=False, photonos=False): Pass True to "
         "one or more keywords to get the test skipped unless matched.",
     )
+    config.addinivalue_line(
+        "markers",
+        "skip_on_env(envvar, present=True, eq=None, ne=None): Skip test based on environment variables presence "
+        "and contents.",
+    )
