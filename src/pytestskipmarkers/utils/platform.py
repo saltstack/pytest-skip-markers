@@ -15,6 +15,9 @@ import shutil
 import subprocess
 import sys
 from functools import lru_cache
+from typing import cast
+
+import distro
 
 
 @lru_cache(maxsize=None)
@@ -118,6 +121,15 @@ def is_aarch64() -> bool:
     return platform.machine().startswith("aarch64")
 
 
+@lru_cache(maxsize=None)
+def is_photonos() -> bool:
+    """
+    Simple function to return if host is Photon OS or not.
+    """
+    osname, _, _ = (x.strip('"').strip("'") for x in distro.linux_distribution())
+    return cast(bool, osname == "VMware Photon OS")
+
+
 def is_spawning_platform() -> bool:
     """
     Returns ``True`` if running on a platform which defaults multiprocessing to spawn.
@@ -137,6 +149,7 @@ def on_platforms(
     aix: bool = False,
     aarch64: bool = False,
     spawning: bool = False,
+    photonos: bool = False,
 ) -> bool:
     """
     Check to see if we're on one of the provided platforms.
@@ -186,6 +199,9 @@ def on_platforms(
         return True
 
     if spawning and is_spawning_platform():
+        return True
+
+    if photonos and is_photonos():
         return True
 
     return False

@@ -112,6 +112,10 @@ def pytest_configure(config: 'Config') -> None:
     config.addinivalue_line(
         'markers', 'skip_unless_on_aarch64: Skip test unless on AArch64'
     )
+    config.addinivalue_line('markers', 'skip_on_photonos: Skip test on PhotonOS')
+    config.addinivalue_line(
+        'markers', 'skip_unless_on_photonos: Skip test unless on PhotonOS'
+    )
     config.addinivalue_line(
         'markers', 'skip_on_spawning_platform: Skip test on spawning platforms'
     )
@@ -121,9 +125,9 @@ def pytest_configure(config: 'Config') -> None:
     )
     config.addinivalue_line(
         'markers',
-        'skip_on_platforms(windows=False, linux=False, darwin=False, sunos=False, smartos=False, freebsd=False, netbsd=False, openbsd=False, aix=False, aarch64=False, spawning=False): Pass True to one or more keywords to get the test skipped.',
+        'skip_on_platforms(windows=False, linux=False, darwin=False, sunos=False, smartos=False, freebsd=False, netbsd=False, openbsd=False, aix=False, aarch64=False, spawning=False, photonos=False): Pass True to one or more keywords to get the test skipped.',
     )
     config.addinivalue_line(
         'markers',
-        'skip_unless_on_platforms(windows=False, linux=False, darwin=False, sunos=False, smartos=False, freebsd=False, netbsd=False, openbsd=False, aix=False, aarch64=False, spawning=False): Pass True to one or more keywords to get the test skipped unless matched.',
+        'skip_unless_on_platforms(windows=False, linux=False, darwin=False, sunos=False, smartos=False, freebsd=False, netbsd=False, openbsd=False, aix=False, aarch64=False, spawning=False, photonos=False): Pass True to one or more keywords to get the test skipped unless matched.',
     )

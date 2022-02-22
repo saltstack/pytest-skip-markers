@@ -214,3 +214,15 @@ def test_is_spawning_platform():
 def test_is_not_spawning_platform():
     with mock.patch("multiprocessing.get_start_method", return_value="fork"):
         assert pytestskipmarkers.utils.platform.is_spawning_platform() is False
+
+
+def test_is_photonos():
+    return_value = True
+    with mock.patch("distro.linux_distribution", return_value=("VMware Photon OS", "", "")):
+        assert pytestskipmarkers.utils.platform.is_photonos() is return_value
+
+
+def test_is_not_photonos():
+    return_value = False
+    with mock.patch("distro.linux_distribution", return_value=("NOT VMware Photon OS", "", "")):
+        assert pytestskipmarkers.utils.platform.is_photonos() is return_value

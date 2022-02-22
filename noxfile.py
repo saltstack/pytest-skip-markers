@@ -376,8 +376,8 @@ def gen_api_docs(session):
         silent=PIP_INSTALL_SILENT,
     )
     session.install("-e", ".", silent=PIP_INSTALL_SILENT)
-    shutil.rmtree("docs/ref")
-    session.run("sphinx-apidoc", "--module-first", "-o", "docs/ref/", "pytestskipmarkers/")
+    shutil.rmtree("docs/ref", ignore_errors=True)
+    session.run("sphinx-apidoc", "--module-first", "-o", "docs/ref/", "src/pytestskipmarkers/")
 
 
 @nox.session(name="twine-check", python="3")

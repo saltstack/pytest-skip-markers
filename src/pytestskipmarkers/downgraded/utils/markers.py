@@ -603,6 +603,40 @@ def evaluate_markers(item: 'Item') -> None:
             reason = 'Platform does not default multiprocessing to spawn, skipped'
         if not pytestskipmarkers.utils.platform.is_spawning_platform():
             raise pytest.skip.Exception(reason, **exc_kwargs)
+    skip_on_photonos_marker = item.get_closest_marker('skip_on_photonos')
+    if skip_on_photonos_marker is not None:
+        if skip_on_photonos_marker.args:
+            raise pytest.UsageError(
+                'The skip_on_photonos marker does not accept any arguments'
+            )
+        reason = cast(Dict[str, Any], skip_on_photonos_marker.kwargs).pop(
+            'reason', None
+        )
+        if skip_on_photonos_marker.kwargs:
+            raise pytest.UsageError(
+                "The skip_on_photonos marker only accepts 'reason' as a keyword argument."
+            )
+        if reason is None:
+            reason = 'Skipped on PhotonOS'
+        if pytestskipmarkers.utils.platform.is_photonos():
+            raise pytest.skip.Exception(reason, **exc_kwargs)
+    skip_unless_on_photonos_marker = item.get_closest_marker('skip_unless_on_photonos')
+    if skip_unless_on_photonos_marker is not None:
+        if skip_unless_on_photonos_marker.args:
+            raise pytest.UsageError(
+                'The skip_unless_on_photonos marker does not accept any arguments'
+            )
+        reason = cast(Dict[str, Any], skip_unless_on_photonos_marker.kwargs).pop(
+            'reason', None
+        )
+        if skip_unless_on_photonos_marker.kwargs:
+            raise pytest.UsageError(
+                "The skip_unless_on_photonos marker only accepts 'reason' as a keyword argument."
+            )
+        if reason is None:
+            reason = 'Platform is not PhotonOS, skipped'
+        if not pytestskipmarkers.utils.platform.is_photonos():
+            raise pytest.skip.Exception(reason, **exc_kwargs)
     skip_on_platforms_marker = item.get_closest_marker('skip_on_platforms')
     if skip_on_platforms_marker is not None:
         if skip_on_platforms_marker.args:
