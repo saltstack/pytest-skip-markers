@@ -1,0 +1,1 @@
+Added ``pytest.mark.skip_on_photonos`` and ``pytest.mark.skip_unless_on_photonos`` markers

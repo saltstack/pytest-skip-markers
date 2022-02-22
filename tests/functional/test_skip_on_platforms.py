@@ -11,7 +11,18 @@ import pytest
 
 @pytest.mark.parametrize(
     "platform",
-    ["windows", "linux", "darwin", "sunos", "smartos", "freebsd", "netbsd", "openbsd", "aix"],
+    [
+        "windows",
+        "linux",
+        "darwin",
+        "sunos",
+        "smartos",
+        "freebsd",
+        "netbsd",
+        "openbsd",
+        "aix",
+        "photonos",
+    ],
 )
 def test_skipped(pytester, platform):
     pytester.makepyfile(
@@ -36,7 +47,18 @@ def test_skipped(pytester, platform):
 
 @pytest.mark.parametrize(
     "platform",
-    ["windows", "linux", "darwin", "sunos", "smartos", "freebsd", "netbsd", "openbsd", "aix"],
+    [
+        "windows",
+        "linux",
+        "darwin",
+        "sunos",
+        "smartos",
+        "freebsd",
+        "netbsd",
+        "openbsd",
+        "aix",
+        "photonos",
+    ],
 )
 def test_not_skipped(pytester, platform):
     pytester.makepyfile(

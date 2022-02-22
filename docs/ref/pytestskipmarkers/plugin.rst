@@ -487,6 +487,44 @@ Markers
 
 
 
+.. _markers.skip_on_photonos:
+
+``skip_on_photonos``
+====================
+
+.. py:decorator:: pytest.mark.skip_on_photonos(reason=None)
+
+    :keyword str reason: The skip reason
+
+    Skip test if test suite is running on PhotonOS.
+
+    .. code-block:: python
+
+        @pytest.mark.skip_on_photonos
+        def test_func():
+            assert True
+
+
+
+.. _markers.skip_unless_on_photonos:
+
+``skip_unless_on_photonos``
+===========================
+
+.. py:decorator:: pytest.mark.skip_unless_on_photonos(reason=None)
+
+    :keyword str reason: The skip reason
+
+    Skip test unless the test suite is running on PhotonOS.
+
+    .. code-block:: python
+
+        @pytest.mark.skip_unless_on_photonos
+        def test_func():
+            assert True
+
+
+
 .. _markers.skip_on_spawning_platform:
 
 ``skip_on_spawning_platform``
@@ -544,6 +582,7 @@ Markers
     :keyword bool openbsd: Skip on openbsd if :py:const:`True`
     :keyword bool aix: Skip on aix if :py:const:`True`
     :keyword bool aarch64: Skip on aarch64 if :py:const:`True`
+    :keyword bool photonos: Skip on photonos if :py:const:`True`
     :keyword bool spawning:
         Skip on platforms for which multiprocessing defaults to ``spawn``
         if :py:const:`True`
@@ -577,6 +616,7 @@ Markers
     :keyword bool openbsd: Skip unless on openbsd if :py:const:`True`
     :keyword bool aix: Skip unless on aix if :py:const:`True`
     :keyword bool aarch64: Skip on aarch64 if :py:const:`True`
+    :keyword bool photonos: Skip on photonos if :py:const:`True`
     :keyword bool spawning:
         Skip on platforms for which multiprocessing does not default to
         ``spawn`` if :py:const:`True`
