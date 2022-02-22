@@ -13,6 +13,16 @@ Backward incompatible (breaking) changes will only be introduced in major versio
 
 .. towncrier release notes start
 
+1.2.0 (2022-02-22)
+==================
+
+Features
+--------
+
+- Added ``pytest.mark.skip_on_photonos`` and ``pytest.mark.skip_unless_on_photonos`` markers (`#13 <https://github.com/saltstack/pytest-skip-markers/issues/13>`_)
+- Added the ``pytest.mark.skip_on_env`` marker. (`#14 <https://github.com/saltstack/pytest-skip-markers/issues/14>`_)
+
+
 1.1.3 (2022-02-16)
 ==================
 
