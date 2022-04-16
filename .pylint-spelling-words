@@ -64,6 +64,7 @@ sids
 sitevars
 smartos
 str
+subtests
 sunos
 sys
 toml
