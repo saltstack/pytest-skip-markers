@@ -133,6 +133,7 @@ def tests(session):
                 pytest_version_requirement = "pytest{}".format(pytest_version_requirement)
             session.install(pytest_version_requirement, silent=PIP_INSTALL_SILENT)
         session.install("-e", ".", silent=PIP_INSTALL_SILENT)
+        session.install("-r", os.path.join("requirements", "base.txt"), silent=PIP_INSTALL_SILENT)
         session.install("-r", os.path.join("requirements", "tests.txt"), silent=PIP_INSTALL_SILENT)
 
         if EXTRA_REQUIREMENTS_INSTALL:
