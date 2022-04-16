@@ -137,6 +137,8 @@ def skip_if_no_remote_network() -> Optional[str]:
         str: The reason for the skip.
         None: Should not be skipped.
     """
+    if os.environ.get('NO_INTERNET'):
+        return 'Environment variable NO_INTERNET is set'
     has_remote_network = False
     for addr in (
         '172.217.17.14',

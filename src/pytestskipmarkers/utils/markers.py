@@ -137,6 +137,9 @@ def skip_if_no_remote_network() -> Optional[str]:
         str: The reason for the skip.
         None: Should not be skipped.
     """
+    if os.environ.get("NO_INTERNET"):
+        return "Environment variable NO_INTERNET is set"
+
     # We are using the google.com DNS records as numerical IPs to avoid
     # DNS look ups which could greatly slow down this check
     has_remote_network = False

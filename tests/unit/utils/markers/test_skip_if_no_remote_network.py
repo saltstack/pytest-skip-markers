@@ -4,6 +4,7 @@
 """
 Test the "skip_if_no_remote_network" marker helper.
 """
+import os
 from unittest import mock
 
 import pytestskipmarkers.utils.markers as markers
@@ -22,3 +23,10 @@ def test_no_remote_network():
         skip_reason = markers.skip_if_no_remote_network()
         assert skip_reason is not None
         assert skip_reason == "No internet network connection was detected"
+
+
+def test_remote_network_with_no_internet_env_variable():
+    with mock.patch.dict(os.environ, {"NO_INTERNET": "1"}):
+        skip_reason = markers.skip_if_no_remote_network()
+        assert skip_reason is not None
+        assert skip_reason == "Environment variable NO_INTERNET is set"
