@@ -50,7 +50,7 @@ def test_error_on_args_or_kwargs(pytester):
             assert True
         """
     )
-    res = pytester.runpytest("--run-destructive")
+    res = pytester.runpytest("--run-expensive")
     res.assert_outcomes(errors=2)
     res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
     res.stdout.fnmatch_lines(
