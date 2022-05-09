@@ -13,6 +13,18 @@ Backward incompatible (breaking) changes will only be introduced in major versio
 
 .. towncrier release notes start
 
+1.3.0 (2022-05-09)
+==================
+
+Features
+--------
+
+- Support skipping all test cases that access the Internet by setting the
+  environment variable `NO_INTERNET`. This is useful to make the test run
+  reproducible and robust for future runs (to avoid breaking in case some random
+  service on the Internet changes). (`#16 <https://github.com/saltstack/pytest-skip-markers/issues/16>`_)
+
+
 1.2.0 (2022-02-22)
 ==================
 
