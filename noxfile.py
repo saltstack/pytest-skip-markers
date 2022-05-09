@@ -153,6 +153,13 @@ def tests(session):
             install_command += [req.strip() for req in EXTRA_REQUIREMENTS_INSTALL.split()]
             session.install(*install_command, silent=PIP_INSTALL_SILENT)
 
+    if IS_WINDOWS:
+        _python_version = python_version(session)
+        if _python_version > (3, 8) and _python_version < (3, 10):
+            # We skip a lot of tests, so lower the expected code coverage
+            global COVERAGE_FAIL_UNDER_PERCENT
+            COVERAGE_FAIL_UNDER_PERCENT = 50
+
     session.run("coverage", "erase")
     env.update(
         {
