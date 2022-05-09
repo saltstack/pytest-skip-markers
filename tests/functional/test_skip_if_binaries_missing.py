@@ -57,7 +57,7 @@ def test_not_skipped(pytester, python_binary):
             python_binary
         )
     )
-    res = pytester.runpytest_inprocess("-ra", "-vv")
+    res = pytester.runpytest_subprocess("-ra", "-vv")
     res.assert_outcomes(passed=1)
     res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
 
@@ -74,6 +74,6 @@ def test_not_skipped_multiple_binaries(pytester, python_binary):
             python_binary
         )
     )
-    res = pytester.runpytest_inprocess("-ra", "-vv")
+    res = pytester.runpytest_subprocess("-ra", "-vv")
     res.assert_outcomes(passed=1)
     res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
