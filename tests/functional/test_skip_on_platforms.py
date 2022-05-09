@@ -4,9 +4,19 @@
 """
 Test the ``@pytest.mark.skip_on_platforms`` marker.
 """
+import sys
 from unittest import mock
 
 import pytest
+
+pytestmark = [
+    pytest.mark.skipif(
+        sys.platform.startswith("win")
+        and sys.version_info >= (3, 8)
+        and sys.version_info < (3, 10),
+        reason="PyTest's capture and pytester.runpytest_inprocess looks broken on Windows and Py(>3.8,<3.10)",
+    ),
+]
 
 
 @pytest.mark.parametrize(
