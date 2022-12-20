@@ -1,0 +1,1 @@
+Updated pre-commit hook versions and added missing `long_description_content_type` to `setup.cfg`
