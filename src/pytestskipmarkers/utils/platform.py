@@ -14,13 +14,11 @@ import platform
 import shutil
 import subprocess
 import sys
-from functools import lru_cache
 from typing import cast
 
 import distro
 
 
-@lru_cache(maxsize=None)
 def is_windows() -> bool:
     """
     Simple function to return if a host is Windows or not.
@@ -30,7 +28,6 @@ def is_windows() -> bool:
     return sys.platform.startswith("win")
 
 
-@lru_cache(maxsize=None)
 def is_linux() -> bool:
     """
     Simple function to return if a host is Linux or not.
@@ -41,7 +38,6 @@ def is_linux() -> bool:
     return sys.platform.startswith("linux")
 
 
-@lru_cache(maxsize=None)
 def is_darwin() -> bool:
     """
     Simple function to return if a host is Darwin (macOS) or not.
@@ -51,7 +47,6 @@ def is_darwin() -> bool:
     return sys.platform.startswith("darwin")
 
 
-@lru_cache(maxsize=None)
 def is_sunos() -> bool:
     """
     Simple function to return if host is SunOS or not.
@@ -61,7 +56,6 @@ def is_sunos() -> bool:
     return sys.platform.startswith("sunos")
 
 
-@lru_cache(maxsize=None)
 def is_smartos() -> bool:
     """
     Simple function to return if host is SmartOS (Illumos) or not.
@@ -73,7 +67,6 @@ def is_smartos() -> bool:
     return False
 
 
-@lru_cache(maxsize=None)
 def is_freebsd() -> bool:
     """
     Simple function to return if host is FreeBSD or not.
@@ -83,7 +76,6 @@ def is_freebsd() -> bool:
     return sys.platform.startswith("freebsd")
 
 
-@lru_cache(maxsize=None)
 def is_netbsd() -> bool:
     """
     Simple function to return if host is NetBSD or not.
@@ -93,7 +85,6 @@ def is_netbsd() -> bool:
     return sys.platform.startswith("netbsd")
 
 
-@lru_cache(maxsize=None)
 def is_openbsd() -> bool:
     """
     Simple function to return if host is OpenBSD or not.
@@ -103,7 +94,6 @@ def is_openbsd() -> bool:
     return sys.platform.startswith("openbsd")
 
 
-@lru_cache(maxsize=None)
 def is_aix() -> bool:
     """
     Simple function to return if host is AIX or not.
@@ -113,7 +103,6 @@ def is_aix() -> bool:
     return sys.platform.startswith("aix")
 
 
-@lru_cache(maxsize=None)
 def is_aarch64() -> bool:
     """
     Simple function to return if host is AArch64 or not.
@@ -121,7 +110,6 @@ def is_aarch64() -> bool:
     return platform.machine().startswith("aarch64")
 
 
-@lru_cache(maxsize=None)
 def is_photonos() -> bool:
     """
     Simple function to return if host is Photon OS or not.

@@ -1,0 +1,1 @@
+Don't cache the functions in `pytestskipmarkers.utils.platform`
