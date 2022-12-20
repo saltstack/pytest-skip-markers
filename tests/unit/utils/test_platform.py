@@ -100,7 +100,7 @@ def test_is_smartos():
 
 
 def is_sunos_ids(value):
-    return "is_sunos={}".format(value)
+    return f"is_sunos={value}"
 
 
 @pytest.mark.skip_on_windows(reason="Windows does not have `os.uname()`")

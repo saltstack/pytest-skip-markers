@@ -229,7 +229,7 @@ def is_fips_enabled() -> bool:
         check=False,
         shell=False,
         stdout=subprocess.PIPE,
-        universal_newlines=True,
+        text=True,
     )
     if ret.returncode == 0:
         stripped_output = ret.stdout.strip()

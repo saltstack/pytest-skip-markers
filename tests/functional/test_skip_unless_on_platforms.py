@@ -49,9 +49,9 @@ def test_skipped(pytester, platform):
     )
     return_value = False
     if platform == "spawning":
-        patch_target = "pytestskipmarkers.utils.platform.is_{}_platform".format(platform)
+        patch_target = f"pytestskipmarkers.utils.platform.is_{platform}_platform"
     else:
-        patch_target = "pytestskipmarkers.utils.platform.is_{}".format(platform)
+        patch_target = f"pytestskipmarkers.utils.platform.is_{platform}"
     with mock.patch(patch_target, return_value=return_value):
         res = pytester.runpytest_inprocess()
         res.assert_outcomes(skipped=1)
@@ -88,9 +88,9 @@ def test_not_skipped(pytester, platform):
     )
     return_value = True
     if platform == "spawning":
-        patch_target = "pytestskipmarkers.utils.platform.is_{}_platform".format(platform)
+        patch_target = f"pytestskipmarkers.utils.platform.is_{platform}_platform"
     else:
-        patch_target = "pytestskipmarkers.utils.platform.is_{}".format(platform)
+        patch_target = f"pytestskipmarkers.utils.platform.is_{platform}"
     with mock.patch(patch_target, return_value=return_value):
         res = pytester.runpytest_inprocess()
         res.assert_outcomes(passed=1)
