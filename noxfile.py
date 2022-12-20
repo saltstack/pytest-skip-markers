@@ -414,8 +414,9 @@ def changelog(session, draft):
 
     version = session.run(
         "python",
-        "setup.py",
-        "--version",
+        "-c",
+        'import os,sys; sys.path.insert(0, "src/"); import pytestskipmarkers; '
+        "print(pytestskipmarkers.__version__, file=sys.stdout, flush=True);",
         silent=True,
         log=False,
         stderr=None,
