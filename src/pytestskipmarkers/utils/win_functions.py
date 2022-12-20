@@ -112,7 +112,7 @@ def get_sid_from_name(name: str) -> str:
     try:
         sid = win32security.LookupAccountName(None, name)[0]
     except pywintypes.error as exc:
-        raise Exception("User {} not found: {}".format(name, exc)) from exc
+        raise Exception(f"User {name} not found: {exc}") from exc
 
     sidstr: str = win32security.ConvertSidToStringSid(sid)
     return sidstr
@@ -144,7 +144,7 @@ def get_current_user(with_domain: bool = True) -> Union[str, bool]:
         elif not with_domain:
             user_name = win32api.GetUserName()
     except pywintypes.error as exc:
-        raise Exception("Failed to get current user: {}".format(exc)) from exc
+        raise Exception(f"Failed to get current user: {exc}") from exc
 
     if not user_name:
         return False

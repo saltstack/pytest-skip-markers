@@ -36,29 +36,13 @@ repos:
         language: system
   # <---- Local Hooks ------------------------------------------------------------------------------------------------
 
-  # ----- Remove Typing - Py3.5 Support  ---------------------------------------------------------------------------->
-  - repo: https://github.com/s0undt3ch/downgrade-source
-    rev: v3.0.0
-    hooks:
-      - id: downgrade-source
-        name: Downgrade source code into a separate package to support Py3.5
-        files: ^src/.*\.py$
-        exclude: ^src/pytestskipmarkers/((__init__|version|utils/__init__)\.py|downgraded/.*\.py)$
-        args:
-          - --target-version=3.5
-          - --pkg-path=src/pytestskipmarkers
-          - --skip-checker=nounusableimports
-          - --skip-checker=nostarimports
-  # <---- Remove Typing - Py3.5 Support  -----------------------------------------------------------------------------
-
   # ----- Formatting ------------------------------------------------------------------------------------------------>
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.3.1
     hooks:
       - id: pyupgrade
-        name: Rewrite Code to be Py3.5+
-        args: [--py3-plus]
-        exclude: ^src/pytestskipmarkers/downgraded/.*\.py$
+        name: Rewrite Code to be Py3.7+
+        args: [--py37-plus]
 
   - repo: https://github.com/asottile/reorder_python_imports
     rev: v3.9.0

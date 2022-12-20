@@ -94,7 +94,7 @@ def skip_if_binaries_missing(
             if shutil.which(binary) is None:
                 if reason is not None:
                     return reason
-                return "The '{}' binary was not found".format(binary)
+                return f"The '{binary}' binary was not found"
     log.debug("All binaries found. Searched for: %s", ", ".join(binaries))
     return None
 
@@ -685,9 +685,7 @@ def evaluate_markers(item: "Item") -> None:
             if pytestskipmarkers.utils.platform.on_platforms(**skip_on_platforms_marker.kwargs):
                 raise pytest.skip.Exception(reason, **exc_kwargs)
         except TypeError as exc:
-            raise pytest.UsageError(
-                "Passed an invalid platform to skip_on_platforms: {}".format(exc)
-            )
+            raise pytest.UsageError(f"Passed an invalid platform to skip_on_platforms: {exc}")
 
     skip_unless_on_platforms_marker = item.get_closest_marker("skip_unless_on_platforms")
     if skip_unless_on_platforms_marker is not None:
@@ -713,7 +711,7 @@ def evaluate_markers(item: "Item") -> None:
                 raise pytest.skip.Exception(reason, **exc_kwargs)
         except TypeError as exc:
             raise pytest.UsageError(
-                "Passed an invalid platform to skip_unless_on_platforms: {}".format(exc)
+                f"Passed an invalid platform to skip_unless_on_platforms: {exc}"
             )
 
     skip_on_env_marker = item.get_closest_marker("skip_on_env")
