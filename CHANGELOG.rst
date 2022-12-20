@@ -13,6 +13,27 @@ Backward incompatible (breaking) changes will only be introduced in major versio
 
 .. towncrier release notes start
 
+1.4.0 (2022-12-20)
+==================
+
+Breaking Changes
+----------------
+
+- Drop support for python versions older than 3.7 (`#22 <https://github.com/saltstack/pytest-skip-markers/issues/22>`_)
+
+
+Improvements
+------------
+
+- Don't cache the functions in `pytestskipmarkers.utils.platform` (`#21 <https://github.com/saltstack/pytest-skip-markers/issues/21>`_)
+
+
+Trivial/Internal Changes
+------------------------
+
+- Updated pre-commit hook versions and added missing `long_description_content_type` to `setup.cfg` (`#23 <https://github.com/saltstack/pytest-skip-markers/issues/23>`_)
+
+
 1.3.0 (2022-05-09)
 ==================
 
