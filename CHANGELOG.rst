@@ -13,6 +13,26 @@ Backward incompatible (breaking) changes will only be introduced in major versio
 
 .. towncrier release notes start
 
+1.4.1 (2023-07-31)
+==================
+
+Improvements
+------------
+
+- Stop using deprecated `@pytest.mark.trylast` (`#24 <https://github.com/saltstack/pytest-skip-markers/issues/24>`_)
+
+
+Trivial/Internal Changes
+------------------------
+
+- Several minor fixes & improvements:
+
+  * Update pre-commit hooks versions
+  * Update copyright headers
+  * Update workflows
+  * Add dependabot config to update GH Actions workflow versions (`#25 <https://github.com/saltstack/pytest-skip-markers/issues/25>`_)
+
+
 1.4.0 (2022-12-20)
 ==================
 
