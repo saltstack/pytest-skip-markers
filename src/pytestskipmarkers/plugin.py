@@ -48,7 +48,7 @@ def pytest_runtest_setup(item: "Item") -> None:
     pytestskipmarkers.utils.markers.evaluate_markers(item)
 
 
-@pytest.mark.trylast  # type: ignore[misc]
+@pytest.hookimpl(trylast=True)  # type: ignore[misc]
 def pytest_configure(config: "Config") -> None:
     """
     Configure the plugin.
