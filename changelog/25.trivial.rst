@@ -2,3 +2,4 @@ Several minor fixes & improvements:
 
 * Update pre-commit hooks versions
 * Update copyright headers
+* Update workflows

@@ -133,3 +133,6 @@ src/pytestskipmarkers/version.py
 
 # Ignore the test generated artifacts
 artifacts/
+
+# nvim backup files
+*~
