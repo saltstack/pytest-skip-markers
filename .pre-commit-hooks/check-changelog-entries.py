@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2021-2022 VMware, Inc.
+# Copyright 2021-2023 VMware, Inc.
 # SPDX-License-Identifier: Apache-2.0
 #
 # pylint: skip-file
@@ -25,7 +25,6 @@ CHANGELOG_ENTRY_RE = re.compile(CHANGELOG_ENTRY_REREX)
 
 
 def check_changelog_entries(files):
-
     exitcode = 0
     for entry in files:
         path = pathlib.Path(entry).resolve()
