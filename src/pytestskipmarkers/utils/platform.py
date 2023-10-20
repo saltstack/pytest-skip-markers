@@ -7,6 +7,8 @@ Platform related utilities.
 ..
     PYTEST_DONT_REWRITE
 """
+import contextlib
+import hashlib
 import multiprocessing
 import os
 import pathlib
@@ -210,23 +212,32 @@ def is_fips_enabled() -> bool:
     ):
         return True
     sysctl_path = shutil.which("sysctl")
-    if not sysctl_path:
-        return False
-    ret = subprocess.run(
-        [sysctl_path, "crypto.fips_enabled"],
-        check=False,
-        shell=False,
-        stdout=subprocess.PIPE,
-        text=True,
-    )
-    if ret.returncode == 0:
-        stripped_output = ret.stdout.strip()
-        if not stripped_output:
-            # No output?
-            return False
-        if "=" not in stripped_output:
-            # Don't know how to parse this
-            return False
-        if stripped_output.split("=")[-1].strip() == "1":
+    if sysctl_path:
+        ret = subprocess.run(
+            [sysctl_path, "crypto.fips_enabled"],
+            check=False,
+            shell=False,
+            stdout=subprocess.PIPE,
+            text=True,
+        )
+        if ret.returncode == 0:
+            stripped_output = ret.stdout.strip()
+            if (
+                stripped_output
+                and "=" in stripped_output
+                and stripped_output.split("=")[-1].strip() == "1"
+            ):
+                return True
+
+    with contextlib.suppress(ImportError):
+        import cryptography.hazmat.backends.openssl.backend
+
+        if cryptography.hazmat.backends.openssl.backend._fips_enabled:
+            return True
+
+    try:
+        hashlib.md5()  # nosec
+    except ValueError as exc:
+        if str(exc) == "[digital envelope routines] unsupported":
             return True
     return False
