@@ -2,3 +2,4 @@ docker
 pytest-subtests
 pyfakefs==4.4.0; python_version == '3.5'
 pyfakefs; python_version > '3.5'
+cryptography

@@ -12,6 +12,14 @@ import pytest
 
 import pytestskipmarkers.utils.platform
 
+try:
+    import cryptography.hazmat.backends.openssl.backend as backend
+
+    cryptography_import_error = ""
+except ImportError as exc:  # pragma: no cover
+    backend = None
+    cryptography_import_error = f"Failed to import cryptography: {exc}"
+
 log = logging.getLogger(__name__)
 
 
@@ -204,6 +212,26 @@ def test_is_fips_enabled_sysctl(output, expected):
         "subprocess.run", return_value=subprocess_run_return_value
     ):
         assert pytestskipmarkers.utils.platform.is_fips_enabled() is expected
+
+
+@pytest.mark.skipif(backend is None, reason=cryptography_import_error)
+@pytest.mark.parametrize("fips_enabled", [True, False], ids=lambda x: f"fips_enabled={x}")
+def test_is_fips_enabled_cryptography(fs, fips_enabled):
+    fs.create_file("/proc/sys/crypto/fips_enabled", contents="0")
+    with mock.patch("shutil.which", return_value=None):
+        with mock.patch.object(backend, "_fips_enabled", fips_enabled):
+            assert pytestskipmarkers.utils.platform.is_fips_enabled() is fips_enabled
+
+
+def test_is_fips_by_catch_exception(fs):
+    fs.create_file("/proc/sys/crypto/fips_enabled", contents="0")
+    with mock.patch("shutil.which", return_value=None):
+        with mock.patch("hashlib.md5", return_value="a random md5 hash"):
+            assert pytestskipmarkers.utils.platform.is_fips_enabled() is False
+        with mock.patch(
+            "hashlib.md5", side_effect=ValueError("[digital envelope routines] unsupported")
+        ):
+            assert pytestskipmarkers.utils.platform.is_fips_enabled() is True
 
 
 def test_is_spawning_platform():
