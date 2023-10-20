@@ -15,7 +15,7 @@ import nox
 from nox.command import CommandFailed
 
 
-COVERAGE_VERSION_REQUIREMENT = "coverage==5.5"
+COVERAGE_VERSION_REQUIREMENT = "coverage>=7.2.7"
 IS_WINDOWS = sys.platform.lower().startswith("win")
 IS_DARWIN = sys.platform.lower().startswith("darwin")
 
