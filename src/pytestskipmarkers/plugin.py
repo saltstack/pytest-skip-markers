@@ -200,3 +200,7 @@ def pytest_configure(config: "Config") -> None:
         "skip_on_env(envvar, present=True, eq=None, ne=None): Skip test based on environment variables presence "
         "and contents.",
     )
+    config.addinivalue_line(
+        "markers",
+        "skip_on_fips_enabled_platform: Skip test on platforms where FIPS is enabled.",
+    )

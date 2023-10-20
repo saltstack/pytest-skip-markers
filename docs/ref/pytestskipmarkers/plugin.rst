@@ -600,6 +600,25 @@ Markers
 
 
 
+.. _markers.skip_on_fips_enabled_platform:
+
+``skip_on_fips_enabled_platform``
+=================================
+
+.. py:decorator:: pytest.mark.skip_on_fips_enabled_platform(reason=None)
+
+    :keyword str reason: The skip reason
+
+    Skip tests if the underlying OS has FIPS enabled.
+
+    .. code-block:: python
+
+        @pytest.mark.skip_on_fips_enabled_platform
+        def test_func():
+            assert True
+
+
+
 .. _markers.skip_on_platforms:
 
 ``skip_on_platforms``
