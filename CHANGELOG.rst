@@ -13,6 +13,15 @@ Backward incompatible (breaking) changes will only be introduced in major versio
 
 .. towncrier release notes start
 
+1.5.0 (2023-10-20)
+==================
+
+Features
+--------
+
+- Add a ``skip_on_fips_enabled_platform`` marker (`#30 <https://github.com/saltstack/pytest-skip-markers/issues/30>`_)
+
+
 1.4.1 (2023-07-31)
 ==================
 
