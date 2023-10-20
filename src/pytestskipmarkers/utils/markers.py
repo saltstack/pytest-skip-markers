@@ -660,6 +660,24 @@ def evaluate_markers(item: "Item") -> None:
         if not pytestskipmarkers.utils.platform.is_photonos():
             raise pytest.skip.Exception(reason, _use_item_location=True)
 
+    skip_on_fips_enabled_platform_marker = item.get_closest_marker("skip_on_fips_enabled_platform")
+    if skip_on_fips_enabled_platform_marker is not None:
+        if skip_on_fips_enabled_platform_marker.args:
+            raise pytest.UsageError(
+                "The skip_on_fips_enabled_platform marker does not accept any arguments"
+            )
+        reason = cast(Dict[str, Any], skip_on_fips_enabled_platform_marker.kwargs).pop(
+            "reason", None
+        )
+        if skip_on_fips_enabled_platform_marker.kwargs:
+            raise pytest.UsageError(
+                "The skip_on_fips_enabled_platform marker only accepts 'reason' as a keyword argument."
+            )
+        if reason is None:
+            reason = "Skipped on FIPS enabled platform"
+        if pytestskipmarkers.utils.platform.is_fips_enabled():
+            raise pytest.skip.Exception(reason, _use_item_location=True)
+
     skip_on_platforms_marker = item.get_closest_marker("skip_on_platforms")
     if skip_on_platforms_marker is not None:
         if skip_on_platforms_marker.args:
