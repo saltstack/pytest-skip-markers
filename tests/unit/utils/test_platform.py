@@ -23,33 +23,6 @@ except ImportError as exc:  # pragma: no cover
 log = logging.getLogger(__name__)
 
 
-@pytest.fixture(autouse=True)
-def reset_lru_cache():
-    for name in dir(pytestskipmarkers.utils.platform):
-        if not name.startswith("is_"):
-            continue
-        func = getattr(pytestskipmarkers.utils.platform, name, None)
-        if func:
-            try:
-                func.cache_clear()
-                log.debug("Called %s.cache_clear()", func.__qualname__)
-            except AttributeError:
-                pass
-    try:
-        yield
-    finally:
-        for name in dir(pytestskipmarkers.utils.platform):
-            if not name.startswith("is_"):
-                continue
-            func = getattr(pytestskipmarkers.utils.platform, name, None)
-            if func:
-                try:
-                    func.cache_clear()
-                    log.debug("Called %s.cache_clear()", func.__qualname__)
-                except AttributeError:
-                    pass
-
-
 def test_is_linux():
     return_value = True
     with mock.patch("sys.platform", new_callable=mock.PropertyMock(return_value="linux")):
