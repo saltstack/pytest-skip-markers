@@ -155,3 +155,23 @@ def test_unknown_platform(pytester):
             "on_platforms() got an unexpected keyword argument 'car'"
         ]
     )
+
+
+def test_error_on_args(pytester):
+    pytester.makepyfile(
+        """
+        import pytest
+
+        @pytest.mark.skip_on_platforms("arg")
+        def test_one():
+            assert True
+        """
+    )
+    res = pytester.runpytest()
+    res.assert_outcomes(errors=1)
+    res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
+    res.stdout.fnmatch_lines(
+        [
+            "*UsageError: The skip_on_platforms marker does not accept any arguments",
+        ]
+    )

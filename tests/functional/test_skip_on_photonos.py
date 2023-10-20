@@ -65,3 +65,28 @@ def test_skip_reason(pytester):
         res = pytester.runpytest_inprocess("-ra", "-s", "-vv")
         res.assert_outcomes(skipped=1)
     res.stdout.fnmatch_lines(["SKIPPED * test_skip_reason.py:*: Because!"])
+
+
+def test_error_on_args_or_kwargs(pytester):
+    pytester.makepyfile(
+        """
+        import pytest
+
+        @pytest.mark.skip_on_photonos("arg")
+        def test_one():
+            assert True
+
+        @pytest.mark.skip_on_photonos(kwarg="arg")
+        def test_two():
+            assert True
+        """
+    )
+    res = pytester.runpytest()
+    res.assert_outcomes(errors=2)
+    res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
+    res.stdout.fnmatch_lines(
+        [
+            "*UsageError: The skip_on_photonos marker does not accept any arguments",
+            "*UsageError: The skip_on_photonos marker only accepts 'reason' as a keyword argument.",
+        ]
+    )
