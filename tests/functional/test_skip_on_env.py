@@ -50,3 +50,65 @@ def test_not_skipped(pytester):
         res = pytester.runpytest_inprocess()
         res.assert_outcomes(passed=1)
     res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
+
+
+def test_error_on_missing_arg(pytester):
+    pytester.makepyfile(
+        """
+        import pytest
+
+        @pytest.mark.skip_on_env
+        def test_one():
+            assert True
+        """
+    )
+    res = pytester.runpytest()
+    res.assert_outcomes(errors=1)
+    res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
+    res.stdout.fnmatch_lines(
+        [
+            "*UsageError: The 'skip_on_env' marker needs at least one argument to be passed, "
+            "the environment variable name.",
+        ]
+    )
+
+
+def test_error_on_multiple_args(pytester):
+    pytester.makepyfile(
+        """
+        import pytest
+
+        @pytest.mark.skip_on_env("FOOBAR", "BARFOO", eq="2")
+        def test_one():
+            assert True
+        """
+    )
+    res = pytester.runpytest()
+    res.assert_outcomes(errors=1)
+    res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
+    res.stdout.fnmatch_lines(
+        [
+            "*UsageError: The 'skip_on_env' only accepts one argument, the environment variable name.",
+        ]
+    )
+
+
+def test_error_on_bad_kwargs(pytester):
+    pytester.makepyfile(
+        """
+        import pytest
+
+        @pytest.mark.skip_on_env("FOOBAR", eq="2", bar=True)
+        def test_one():
+            assert True
+        """
+    )
+    res = pytester.runpytest()
+    res.assert_outcomes(errors=1)
+    res.stdout.no_fnmatch_line("*PytestUnknownMarkWarning*")
+    res.stdout.fnmatch_lines(
+        [
+            "*UsageError: The 'skip_on_env' marker only accepts 'present', 'eq', 'ne' and 'reason' "
+            "as keyword arguments.",
+        ]
+    )
