@@ -72,7 +72,6 @@ def pytest_configure(config: "Config") -> None:
         "skip_if_not_root: Skip if the current user is not root on non windows platforms or not "
         "Administrator on windows platforms",
     )
-    config.addinivalue_line("markers", "skip_if_not_root: Skip if the current user is not `root`.")
     config.addinivalue_line(
         "markers",
         "skip_if_binaries_missing(*binaries, check_all=True, message=None):"
