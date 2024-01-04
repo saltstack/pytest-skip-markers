@@ -217,7 +217,7 @@ def is_fips_enabled() -> bool:
             [sysctl_path, "crypto.fips_enabled"],
             check=False,
             shell=False,
-            stdout=subprocess.PIPE,
+            capture_output=True,
             text=True,
         )
         if ret.returncode == 0:
