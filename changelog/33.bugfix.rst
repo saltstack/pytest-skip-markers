@@ -1,1 +1,0 @@
-Also capture ``stderr`` so that no errors are seen on console when checking for FIPS support

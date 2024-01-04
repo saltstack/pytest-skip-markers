@@ -13,6 +13,24 @@ Backward incompatible (breaking) changes will only be introduced in major versio
 
 .. towncrier release notes start
 
+1.5.1 (2024-01-04)
+==================
+
+Bug Fixes
+---------
+
+- Also capture ``stderr`` so that no errors are seen on console when checking for FIPS support (`#33 <https://github.com/saltstack/pytest-skip-markers/issues/33>`_)
+
+
+Trivial/Internal Changes
+------------------------
+
+- Minor fixes
+
+  * Don't set the config value twice for the same marker
+  * Update copyright headers (`#33 <https://github.com/saltstack/pytest-skip-markers/issues/33>`_)
+
+
 1.5.0 (2023-10-20)
 ==================
 

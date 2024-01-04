@@ -1,4 +1,0 @@
-Minor fixes
-
-* Don't set the config value twice for the same marker
-* Update copyright headers
