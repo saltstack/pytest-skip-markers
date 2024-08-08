@@ -1,8 +1,8 @@
 ---
-minimum_pre_commit_version: 1.15.2
+minimum_pre_commit_version: 3.6.0
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: check-merge-conflict  # Check for files that contain merge conflict strings.
       - id: trailing-whitespace   # Trims trailing whitespace.
@@ -37,7 +37,7 @@ repos:
   # <---- Local Hooks ------------------------------------------------------------------------------------------------
 
   - repo: https://github.com/saltstack/python-tools-scripts
-    rev: "0.20.0"
+    rev: "0.20.5"
     hooks:
       - id: tools
         alias: actionlint
@@ -118,26 +118,26 @@ repos:
         - flake8-typing-imports
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
+    rev: v1.11.0
     hooks:
       - id: mypy
         name: Run mypy against source
         files: ^src/.*\.py$
         exclude: ^src/pytestskipmarkers/(downgraded/.*|utils/(socket|time)\.py)$
-        args: [--strict]
+        args: [--strict, --python-version 3.8]
         additional_dependencies:
           - attrs
           - types-attrs
           - types-setuptools
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
+    rev: v1.11.0
     hooks:
       - id: mypy
         name: Run mypy against tests
         files: ^tests/.*\.py$
         exclude: ^src/pytestskipmarkers/(downgraded/.*|utils/(socket|time)\.py)$
-        args: []
+        args: [--python-version 3.8]
         additional_dependencies:
           - pytest
           - attrs

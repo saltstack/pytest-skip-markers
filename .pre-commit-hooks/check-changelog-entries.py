@@ -23,6 +23,8 @@ CHANGELOG_EXTENSIONS = (
 CHANGELOG_ENTRY_REREX = r"^[\d]+\.({})\.rst$".format("|".join(CHANGELOG_EXTENSIONS))
 CHANGELOG_ENTRY_RE = re.compile(CHANGELOG_ENTRY_REREX)
 
+## Example changelog entry: <PR number>.improvement.rst
+
 
 def check_changelog_entries(files):
     exitcode = 0

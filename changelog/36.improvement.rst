@@ -1,0 +1,1 @@
+Added support for is_arm64 for MacOS and is_x86_64, and updated pre-commit
