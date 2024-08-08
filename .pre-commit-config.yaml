@@ -124,7 +124,10 @@ repos:
         name: Run mypy against source
         files: ^src/.*\.py$
         exclude: ^src/pytestskipmarkers/(downgraded/.*|utils/(socket|time)\.py)$
-        args: [--strict, --no-site-packages, --python-version 3.8]
+        args:
+          - --strict
+          - --no-site-packages
+          - --python-version 3.8
         additional_dependencies:
           - attrs
           - types-attrs
@@ -137,7 +140,9 @@ repos:
         name: Run mypy against tests
         files: ^tests/.*\.py$
         exclude: ^src/pytestskipmarkers/(downgraded/.*|utils/(socket|time)\.py)$
-        args: [--no-site-packages, --python-version 3.8]
+        args:
+          - --no-site-packages
+          - --python-version 3.8
         additional_dependencies:
           - pytest
           - attrs
