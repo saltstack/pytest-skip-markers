@@ -54,8 +54,8 @@ repos:
     rev: v3.15.1
     hooks:
       - id: pyupgrade
-        name: Rewrite Code to be Py3.7+
-        args: [--py37-plus]
+        name: Rewrite Code to be Py3.8+
+        args: [--py38-plus]
 
   - repo: https://github.com/asottile/reorder_python_imports
     rev: v3.13.0
