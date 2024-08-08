@@ -127,7 +127,6 @@ repos:
         args:
           - --strict
           - --no-site-packages
-          - --python-version 3.8
         additional_dependencies:
           - attrs
           - types-attrs
@@ -142,7 +141,6 @@ repos:
         exclude: ^src/pytestskipmarkers/(downgraded/.*|utils/(socket|time)\.py)$
         args:
           - --no-site-packages
-          - --python-version 3.8
         additional_dependencies:
           - pytest
           - attrs
