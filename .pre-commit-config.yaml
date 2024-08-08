@@ -2,7 +2,7 @@
 minimum_pre_commit_version: 1.15.2
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-merge-conflict  # Check for files that contain merge conflict strings.
       - id: trailing-whitespace   # Trims trailing whitespace.
@@ -36,8 +36,8 @@ repos:
         language: system
   # <---- Local Hooks ------------------------------------------------------------------------------------------------
 
-  - repo: https://github.com/s0undt3ch/python-tools-scripts
-    rev: "0.17.0"
+  - repo: https://github.com/saltstack/python-tools-scripts
+    rev: "0.20.0"
     hooks:
       - id: tools
         alias: actionlint
@@ -51,14 +51,14 @@ repos:
 
   # ----- Formatting ------------------------------------------------------------------------------------------------>
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.10.1
+    rev: v3.15.1
     hooks:
       - id: pyupgrade
         name: Rewrite Code to be Py3.7+
         args: [--py37-plus]
 
   - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.10.0
+    rev: v3.13.0
     hooks:
       - id: reorder-python-imports
         args: [
@@ -68,25 +68,25 @@ repos:
         exclude: ^src/pytestskipmarkers/(version.py|downgraded/.*)$
 
   - repo: https://github.com/psf/black
-    rev: 23.7.0
+    rev: 24.2.0
     hooks:
       - id: black
         args: [-l 100]
         exclude: ^src/pytestskipmarkers/(version.py|downgraded/.*)$
 
   - repo: https://github.com/asottile/blacken-docs
-    rev: 1.15.0
+    rev: 1.16.0
     hooks:
       - id: blacken-docs
         args: [--skip-errors]
         files: ^(.*\.rst|docs/.*\.rst|src/pytestskipmarkers/.*\.py)$
         additional_dependencies:
-          - black==23.7.0
+          - black==24.2.0
   # <---- Formatting -------------------------------------------------------------------------------------------------
 
   # ----- Security -------------------------------------------------------------------------------------------------->
   - repo: https://github.com/PyCQA/bandit
-    rev: "1.7.5"
+    rev: "1.7.7"
     hooks:
       - id: bandit
         alias: bandit-salt
@@ -97,7 +97,7 @@ repos:
                 tests/.*
             )$
   - repo: https://github.com/PyCQA/bandit
-    rev: "1.7.5"
+    rev: "1.7.7"
     hooks:
       - id: bandit
         alias: bandit-tests
@@ -108,7 +108,7 @@ repos:
 
   # ----- Code Analysis --------------------------------------------------------------------------------------------->
   - repo: https://github.com/pycqa/flake8
-    rev: '6.1.0'
+    rev: '7.1.1'
     hooks:
       - id: flake8
         exclude: ^(src/pytestskipmarkers/(downgraded/.*|version\.py)|\.pre-commit-hooks/.*\.py)$
@@ -118,7 +118,7 @@ repos:
         - flake8-typing-imports
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.4.1
+    rev: v1.8.0
     hooks:
       - id: mypy
         name: Run mypy against source
@@ -131,7 +131,7 @@ repos:
           - types-setuptools
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.4.1
+    rev: v1.8.0
     hooks:
       - id: mypy
         name: Run mypy against tests
