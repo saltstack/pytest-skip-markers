@@ -112,6 +112,20 @@ def is_aarch64() -> bool:
     return platform.machine().startswith("aarch64")
 
 
+def is_arm64() -> bool:
+    """
+    Simple function to return if host is Arm64 or not.
+    """
+    return platform.machine().startswith("arm64")
+
+
+def is_x86_64() -> bool:
+    """
+    Simple function to return if host is x86_64 or not.
+    """
+    return platform.machine().startswith("x86_64")
+
+
 def is_photonos() -> bool:
     """
     Simple function to return if host is Photon OS or not.
