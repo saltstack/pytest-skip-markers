@@ -109,21 +109,11 @@ def is_aarch64() -> bool:
     """
     Simple function to return if host is AArch64 or not.
     """
-    return platform.machine().startswith("aarch64")
-
-
-def is_arm64() -> bool:
-    """
-    Simple function to return if host is Arm64 or not.
-    """
-    return platform.machine().startswith("arm64")
-
-
-def is_x86_64() -> bool:
-    """
-    Simple function to return if host is x86_64 or not.
-    """
-    return platform.machine().startswith("x86_64")
+    if is_darwin():
+        # Allow for MacOS Arm64 platform returning differently from Linux
+        return platform.machine().startswith("arm64")
+    else:
+        return platform.machine().startswith("aarch64")
 
 
 def is_photonos() -> bool:
@@ -152,7 +142,6 @@ def on_platforms(
     openbsd: bool = False,
     aix: bool = False,
     aarch64: bool = False,
-    arm64: bool = False,
     spawning: bool = False,
     photonos: bool = False,
 ) -> bool:
@@ -169,7 +158,6 @@ def on_platforms(
     :keyword bool openbsd: When :py:const:`True`, check if running on OpenBSD.
     :keyword bool aix: When :py:const:`True`, check if running on AIX.
     :keyword bool aarch64: When :py:const:`True`, check if running on AArch64.
-    :keyword bool arm64: When :py:const:`True`, check if running on Arm64.
     :keyword bool spawning:
         When :py:const:`True`, check if running on a platform which defaults
         multiprocessing to spawn
@@ -202,9 +190,6 @@ def on_platforms(
         return True
 
     if aarch64 and is_aarch64():
-        return True
-
-    if arm64 and is_arm64():
         return True
 
     if spawning and is_spawning_platform():
