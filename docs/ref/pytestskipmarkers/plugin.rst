@@ -92,7 +92,7 @@ Markers
             assert True
 
 
-        @pytest.mark.skip_if_binaries_missing("python3.7", "python3", "python", check_all=False)
+        @pytest.mark.skip_if_binaries_missing("python3.8", "python3", "python", check_all=False)
         def test_func():
             assert True
 
