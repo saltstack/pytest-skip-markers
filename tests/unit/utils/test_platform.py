@@ -142,23 +142,32 @@ def test_is_not_aix():
         assert pytestskipmarkers.utils.platform.is_aix() is return_value
 
 
-def test_is_aarch64():
+def test_is_aarch64_arm64():
     return_value = True
     # Allow for MacOS Arm64 platform returns 'arm64' not 'aarch64', different than Linux
     with mock.patch("platform.machine", return_value="arm64"):
-        assert pytestskipmarkers.utils.platform.is_aarch64() is return_value
+        with mock.patch("sys.platform", return_value="darwin"):
+            assert pytestskipmarkers.utils.platform.is_aarch64() is return_value
+
+
+def test_is_aarch64_aarch64():
+    return_value = True
+    # Allow for MacOS Arm64 platform returns 'arm64' not 'aarch64', different than Linux
+    with mock.patch("platform.machine", return_value="aarch64"):
+        with mock.patch("sys.platform", return_value="not_darwin"):
+            assert pytestskipmarkers.utils.platform.is_aarch64() is return_value
 
 
 def test_is_not_aarch64():
     return_value = False
     with mock.patch("platform.machine", return_value="not_arm64"):
-        assert pytestskipmarkers.utils.platform.is_aarch64() is return_value
+        with mock.patch("sys.platform", return_value="darwin"):
+            assert pytestskipmarkers.utils.platform.is_aarch64() is return_value
 
 
 def test_is_not_aarch64_string_aarch64():
     return_value = False
-    # Allow for MacOS Arm64 platform returning differently from Linux
-    with mock.patch("platform.machine", return_value="aarch64"):
+    with mock.patch("platform.machine", return_value="not_aarch64"):
         assert pytestskipmarkers.utils.platform.is_aarch64() is return_value
 
 
