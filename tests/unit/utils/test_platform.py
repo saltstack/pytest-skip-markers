@@ -156,7 +156,7 @@ def test_is_aarch64_aarch64():
     print(f"DGM test_is_aarch64_aarch64, expected return value '{return_value}'", flush=True)
     # Allow for MacOS Arm64 platform returns 'arm64' not 'aarch64', different than Linux
     with mock.patch("platform.machine", return_value="aarch64"):
-        with mock.patch("sys.platform", return_value="not_darwin"):
+        with mock.patch("sys.platform", new_callable=mock.PropertyMock(return_value="not_darwin")):
             assert pytestskipmarkers.utils.platform.is_aarch64() is return_value
 
 
@@ -164,7 +164,7 @@ def test_is_not_aarch64():
     return_value = False
     print(f"DGM test_is_not_aarch64, expected return value '{return_value}'", flush=True)
     with mock.patch("platform.machine", return_value="not_arm64"):
-        with mock.patch("sys.platform", return_value="darwin"):
+        with mock.patch("sys.platform", new_callable=mock.PropertyMock(return_value="darwin")):
             assert pytestskipmarkers.utils.platform.is_aarch64() is return_value
 
 
