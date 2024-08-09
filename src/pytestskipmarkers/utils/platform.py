@@ -111,9 +111,15 @@ def is_aarch64() -> bool:
     """
     if is_darwin():
         # Allow for MacOS Arm64 platform returning differently from Linux
-        return platform.machine().startswith("arm64")
+        # return platform.machine().startswith("arm64")
+        dgm_plmstrg = platform.machine()
+        print(f"DGM is_aarch64 with Darwin True,  dgm_plmstrg '{dgm_plmstrg}'", flush=True)
+        return dgm_plmstrg.startswith("arm64")
     else:
-        return platform.machine().startswith("aarch64")
+        # return platform.machine().startswith("aarch64")
+        dgm_plmstrg = platform.machine()
+        print(f"DSGM is_aarch64 with Darwin False,  dgm_plmstrg '{dgm_plmstrg}'", flush=True)
+        return dgm_plmstrg.startswith("aarch64")
 
 
 def is_photonos() -> bool:
